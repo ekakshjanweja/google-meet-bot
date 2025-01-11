@@ -1,17 +1,8 @@
-import { Browser, Builder, By, until } from "selenium-webdriver";
-import { Options } from "selenium-webdriver/chrome";
+import { By, until, WebDriver } from "selenium-webdriver";
 
-export async function main() {
-  const options = new Options();
-  options.addArguments("--disable-blink-features=AutomationControlled");
-  options.addArguments("--use-fake-ui-for-media-stream");
-  const driver = await new Builder()
-    .forBrowser(Browser.CHROME)
-    .setChromeOptions(options)
-    .build();
-
+export async function spawnner(driver: WebDriver, meetingUrl: string) {
   try {
-    await driver.get("https://meet.google.com/zqi-usnz-cag");
+    await driver.get(meetingUrl);
     await driver.sleep(3000);
 
     const popupBtn = await driver.wait(
@@ -39,6 +30,16 @@ export async function main() {
     btnInput.click();
 
     await driver.wait(until.elementLocated(By.id("dfbdrb")), 10000);
+
+    return {
+      data: "Successfully joined the meeting.",
+      success: true,
+    };
+  } catch (error) {
+    return {
+      data: error,
+      success: false,
+    };
   } finally {
     await driver.quit();
   }
