@@ -1,22 +1,4 @@
-import { WebDriver } from "selenium-webdriver";
-
-export async function startScreenShare(driver: WebDriver) {
-  console.log("Screen sharing started");
-
-  // const mediaStream = await window.navigator.mediaDevices.getDisplayMedia();
-
-  // const videoElement = document.createElement("video");
-
-  // videoElement.srcObject = mediaStream;
-
-  // videoElement.play();
-
-  // document
-  //   .getElementsByClassName("qd0xv-fmcmS-wGMbrd-sM5MNb")[0]
-  //   .appendChild(videoElement);
-
-  const response = await driver.executeScript(`
-   function wait(delayInMS) {
+function wait(delayInMS) {
   return new Promise((resolve) => setTimeout(resolve, delayInMS));
 }
 function startRecording(stream, lengthInMS) {
@@ -59,9 +41,3 @@ window.navigator.mediaDevices.getDisplayMedia().then(async (stream) => {
 
   console.log("After Download Button Click");
 });
-
-  `);
-
-  console.log(response);
-  driver.sleep(10000);
-}

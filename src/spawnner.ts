@@ -3,7 +3,7 @@ import { By, until, WebDriver } from "selenium-webdriver";
 export async function spawnner(driver: WebDriver, meetingUrl: string) {
   try {
     await driver.get(meetingUrl);
-    await driver.sleep(3000);
+    await driver.sleep(1000);
 
     const popupBtn = await driver.wait(
       until.elementLocated(By.xpath("//span[contains(text(),'Got it')]")),
@@ -19,6 +19,7 @@ export async function spawnner(driver: WebDriver, meetingUrl: string) {
     await nameInput.clear();
     await nameInput.click();
     await nameInput.sendKeys("bot");
+    await driver.sleep(1000);
     const btnInput = driver.wait(
       until.elementLocated(
         By.xpath(
@@ -29,7 +30,7 @@ export async function spawnner(driver: WebDriver, meetingUrl: string) {
     );
     btnInput.click();
 
-    await driver.wait(until.elementLocated(By.id("dfbdrb")), 10000);
+    // await driver.wait(until.elementLocated(By.id("dfbdrb")), 10000);
 
     return {
       data: "Successfully joined the meeting.",
@@ -41,6 +42,6 @@ export async function spawnner(driver: WebDriver, meetingUrl: string) {
       success: false,
     };
   } finally {
-    await driver.quit();
+    // await driver.quit();
   }
 }

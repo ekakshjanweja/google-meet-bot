@@ -8,7 +8,7 @@ const app = new Hono();
 app.get("/", async (c) => {
   try {
     const driver = await getDriver();
-    await spawnner(driver, "https://meet.google.com/zqi-usnz-cag");
+    await spawnner(driver, "https://meet.google.com/mzy-csox-yqf");
     //Wait until admin lets you in
     await startScreenShare(driver);
   } catch (error) {
