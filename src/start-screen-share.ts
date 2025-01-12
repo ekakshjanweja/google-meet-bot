@@ -1,66 +1,15 @@
 import { WebDriver } from "selenium-webdriver";
+import * as fs from "fs";
+import * as path from "path";
 
 export async function startScreenShare(driver: WebDriver) {
   console.log("Screen sharing started");
 
-  // const mediaStream = await window.navigator.mediaDevices.getDisplayMedia();
-
-  // const videoElement = document.createElement("video");
-
-  // videoElement.srcObject = mediaStream;
-
-  // videoElement.play();
-
-  // document
-  //   .getElementsByClassName("qd0xv-fmcmS-wGMbrd-sM5MNb")[0]
-  //   .appendChild(videoElement);
-
-  const response = await driver.executeScript(`
-   function wait(delayInMS) {
-  return new Promise((resolve) => setTimeout(resolve, delayInMS));
-}
-function startRecording(stream, lengthInMS) {
-  let recorder = new MediaRecorder(stream);
-  let data = [];
-
-  recorder.ondataavailable = (event) => data.push(event.data);
-  recorder.start();
-
-  let stopped = new Promise((resolve, reject) => {
-    recorder.onstop = resolve;
-    recorder.onerror = (event) => reject(event.name);
-  });
-
-  let recorded = wait(lengthInMS).then(() => {
-    if (recorder.state === "recording") {
-      recorder.stop();
-    }
-  });
-
-  return Promise.all([stopped, recorded]).then(() => data);
-}
-
-console.log("Before MediaDevices");
-
-window.navigator.mediaDevices.getDisplayMedia().then(async (stream) => {
-  console.log("Before Start Recording");
-
-  const recordedChunks = await startRecording(stream, 10000);
-
-  console.log("After Start Recording");
-
-  let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
-  let recording = document.createElement("video");
-  recording.src = URL.createObjectURL(recordedBlob);
-  const downloadButton = document.createElement("a");
-  downloadButton.href = recording.src;
-  downloadButton.download = "RecordedVideo.webm";
-  downloadButton.click();
-
-  console.log("After Download Button Click");
-});
-
-  `);
+  const scriptContent = fs.readFileSync(
+    path.join(__dirname, "recording-script.js"),
+    "utf-8"
+  );
+  const response = await driver.executeScript(scriptContent);
 
   console.log(response);
   driver.sleep(10000);
