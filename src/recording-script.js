@@ -22,22 +22,22 @@ function startRecording(stream, lengthInMS) {
   return Promise.all([stopped, recorded]).then(() => data);
 }
 
-console.log("Before MediaDevices");
+window.navigator.mediaDevices
+  .getDisplayMedia({
+    video: {
+      displaySurface: "browser",
+    },
+    audio: true,
+    preferCurrentTab: true,
+  })
+  .then(async (stream) => {
+    const recordedChunks = await startRecording(stream, 20000);
 
-window.navigator.mediaDevices.getDisplayMedia().then(async (stream) => {
-  console.log("Before Start Recording");
-
-  const recordedChunks = await startRecording(stream, 10000);
-
-  console.log("After Start Recording");
-
-  let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
-  let recording = document.createElement("video");
-  recording.src = URL.createObjectURL(recordedBlob);
-  const downloadButton = document.createElement("a");
-  downloadButton.href = recording.src;
-  downloadButton.download = "RecordedVideo.webm";
-  downloadButton.click();
-
-  console.log("After Download Button Click");
-});
+    let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
+    let recording = document.createElement("video");
+    recording.src = URL.createObjectURL(recordedBlob);
+    const downloadButton = document.createElement("a");
+    downloadButton.href = recording.src;
+    downloadButton.download = "video.webm";
+    downloadButton.click();
+  });
