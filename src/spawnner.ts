@@ -16,6 +16,9 @@ export async function spawnner(driver: WebDriver, meetingUrl: string) {
       until.elementLocated(By.xpath("//input[@placeholder='Your name']")),
       10000
     );
+
+    console.log("Joining the meeting...");
+
     await nameInput.clear();
     await nameInput.click();
     await nameInput.sendKeys("bot");
@@ -30,8 +33,6 @@ export async function spawnner(driver: WebDriver, meetingUrl: string) {
     );
     btnInput.click();
 
-    // await driver.wait(until.elementLocated(By.id("dfbdrb")), 10000);
-
     return {
       data: "Successfully joined the meeting.",
       success: true,
@@ -41,7 +42,5 @@ export async function spawnner(driver: WebDriver, meetingUrl: string) {
       data: error,
       success: false,
     };
-  } finally {
-    // await driver.quit();
   }
 }

@@ -9,7 +9,6 @@ app.get("/", async (c) => {
   try {
     const driver = await getDriver();
     await spawnner(driver, "https://meet.google.com/vcc-jcoi-sut");
-    //Wait until admin lets you in
     await startScreenShare(driver);
   } catch (error) {
     c.json({
