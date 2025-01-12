@@ -31,7 +31,7 @@ window.navigator.mediaDevices
     preferCurrentTab: true,
   })
   .then(async (stream) => {
-    const recordedChunks = await startRecording(stream, 20000);
+    const recordedChunks = await startRecording(stream, 60000);
 
     let recordedBlob = new Blob(recordedChunks, { type: "video/webm" });
     let recording = document.createElement("video");
